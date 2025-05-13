@@ -92,6 +92,6 @@ print(f"Test Accuracy: {accuracy:.4f}")
 
 # Detailed classification report
 y_pred_probs = best_model.predict(X_test_scaled)
-y_pred_classes = (y_pred_probs > 0.5).astype(int)
+y_pred_classes = (y_pred_probs > np.percentile(y_pred_probs, 90)).astype(int)
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred_classes))
