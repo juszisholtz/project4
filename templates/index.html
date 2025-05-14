@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stock Buy/Sell Predictor</title>
+    <title>Stock Predictor</title>
 </head>
 <body>
-    <h1>Stock ML Model Evaluator</h1>
+    <h1>Stock Buy/Sell Model</h1>
     <form method="POST">
-        <label for="ticker">Enter Ticker Symbol:</label>
-        <input type="text" id="ticker" name="ticker" required>
+        <label for="ticker">Enter Ticker:</label>
+        <input type="text" name="ticker" id="ticker" required>
         <input type="submit" value="Run Model">
     </form>
+
+    {% if ticker %}
+        <h2>Selected Ticker: <span style="color:blue">{{ ticker }}</span></h2>
+    {% endif %}
 
     {% if result %}
         <h2>Model Evaluation:</h2>
         <pre>{{ result }}</pre>
+    {% endif %}
+
+    {% if statement %}
+        <h2>Model Verdict:</h2>
+        <p>{{ statement }}</p>
+    {% endif %}
+
+    {% if disclaimer %}
+        <p><em>{{ disclaimer }}</em></p>
     {% endif %}
 </body>
 </html>
