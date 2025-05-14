@@ -81,7 +81,7 @@ def run_model_for_ticker(ticker_symbol):
         best_model.fit(X_train_scaled, y_train, epochs=10, validation_split=0.2, class_weight=class_weights, verbose=0)
 
         y_pred_probs = best_model.predict(X_test_scaled)
-        y_pred_classes = (y_pred_probs > 0.5).astype(int)
+        y_pred_classes = (y_pred_probs > np.percentile(y_pred_probs, 90)).astype(int)
 
         report = classification_report(y_test, y_pred_classes, digits=3)
         return report
