@@ -1,16 +1,13 @@
 import yfinance as yf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 import pandas as pd
 import sklearn as skl
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from sklearn.utils.class_weight import compute_class_weight
+from sklearn.metrics import classification_report
 import numpy as np
-import shutil
-import keras_tuner as kt
-import pandas_ta as ta
 
 # Get historical stock data
 ticker = yf.Ticker("GOOGL")
@@ -39,10 +36,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, strat
 X_scaler = StandardScaler()
 X_train_scaled = X_scaler.fit_transform(X_train)
 X_test_scaled = X_scaler.transform(X_test)
-
-# Compute class weights
-weights = compute_class_weight(class_weight='balanced', classes=np.unique(y_train), y=y_train)
-class_weights = dict(zip(np.unique(y_train), weights))
 
 # Reset tuner
 shutil.rmtree('untitled_project', ignore_errors=True)
@@ -78,12 +71,10 @@ tuner = kt.Hyperband(
 
 # Search for best model
 tuner.search(X_train_scaled, y_train, epochs=20,
-             validation_data=(X_test_scaled, y_test),
-             class_weight=class_weights)
+             validation_data=(X_test_scaled, y_test))
 
 # Retrieve and retrain best model
 best_model = tuner.get_best_models(1)[0]
-best_model.fit(X_train_scaled, y_train, epochs=20, validation_split=0.2, class_weight=class_weights)
 
 # Evaluate on test data
 loss, accuracy = best_model.evaluate(X_test_scaled, y_test, verbose=2)
@@ -92,6 +83,6 @@ print(f"Test Accuracy: {accuracy:.4f}")
 
 # Detailed classification report
 y_pred_probs = best_model.predict(X_test_scaled)
-y_pred_classes = (y_pred_probs > np.percentile(y_pred_probs, 90)).astype(int)
+y_pred_classes = (y_pred_probs > 0.5).astype(int)
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred_classes))
