@@ -8,6 +8,9 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 import numpy as np
+import pandas_ta as ta
+import keras_tuner as kt
+import shutil
 
 # Get historical stock data
 ticker = yf.Ticker("GOOGL")
