@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 30px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .results, .chart {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+            max-width: 100%;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .chart img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        em {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        #loading {
+            display: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+            margin-top: 20px;
+        }
+    </style>
+
+    <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <h1>Stock Buying Model</h1>
+
+    <form method="POST" onsubmit="showLoading()">
+        <label for="ticker">Enter Ticker:</label>
+        <input type="text" name="ticker" id="ticker" required>
+        <input type="submit" value="Run Model">
+    </form>
+
+    <!-- Loading Message -->
+    <div id="loading">
+        ⏳ Running the model... Please wait.
+    </div>
+
+    {% if ticker %}
+        <h2>Selected Ticker: <span style="color:blue">{{ ticker }}</span></h2>
+    {% endif %}
+
+    {% if chart_path %}
+    <div class="chart">
+        <h2>Stock Price Chart</h2>
+        <img src="{{ url_for('static', filename=ticker + '_chart.png') }}" alt="Stock chart for {{ ticker }}">
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="results">
+        <h2>Model Evaluation</h2>
+        <pre>{{ result }}</pre>
+    </div>
+    {% endif %}
+
+    {% if statement %}
+    <div class="results">
+        <h2>Model Verdict</h2>
+        <p>{{ statement }}</p>
+    </div>
+    {% endif %}
+
+    {% if disclaimer %}
+    <div class="results">
+        <p><em>{{ disclaimer }}</em></p>
+    </div>
+    {% endif %}
+</body>
+</html>
+
