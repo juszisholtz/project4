@@ -123,4 +123,4 @@ def index():
     return render_template("index.html", result=result, statement=statement, disclaimer=disclaimer, ticker=selected_ticker, chart_path=chart_path)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
