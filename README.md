@@ -20,7 +20,8 @@ Project Structure:
     templates/index.html: Frontend HTML for the web interface
     static/*.png - Generated stock charts saved as PNG images
     README.md - Project documentation (this file)
-    Slide Deck Link: https://docs.google.com/presentation/d/1vPft-Uf-SsTidd2UTbKKvpAsJB2hnj-nzbdMRTUDoMM/edit?usp=sharing
+    
+Slide Deck Link: (https://docs.google.com/presentation/d/1vPft-Uf-SsTidd2UTbKKvpAsJB2hnj-nzbdMRTUDoMM/edit?usp=sharing)
 
 How It Works:
 
